@@ -3,6 +3,7 @@ const apiUrl = 'https://api.openweathermap.org/data/2.5/';
 const onecall = 'onecall?';
 const weather = 'weather?';
 const currentWeatherDetail = document.querySelector('#cw-detail');
+const searchForm = document.querySelector('#search-form');
 
 let lastRes = null;
 
@@ -47,6 +48,7 @@ const forecast = (lat, lon) => {
   ).then(json => {
     console.log(json);
     lastRes = json;
+    return json;
   })
 }
 
@@ -60,5 +62,20 @@ const weatherCall = function (cityName) {
     .then(o => {
       lastRes = o;
       console.log(o);
+      return o;
     })
 }
+
+searchForm.querySelector('button').addEventListener('click', (ev) => {
+  ev.preventDefault();
+  console.log(this);
+  let sTerm = searchForm.querySelector('input').value;
+  console.log(`search term: ${sTerm}`);
+  weatherCall(sTerm)
+  .then(json => {
+    return forecast(json.coord.lat, json.coord.lon)
+  }).then(blob => {
+    let c = blob.current;
+    displayCurrentWeather(sTerm, Date(), c.temp, c.wind_speed, c.humidity, c.uvi);
+  })
+ });
