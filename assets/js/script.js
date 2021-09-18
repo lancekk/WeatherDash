@@ -2,27 +2,26 @@ const apiKey = "d1ed7be948d11ed8ac35d1aa806592ad";
 const apiUrl = 'https://api.openweathermap.org/data/2.5/';
 const onecall = 'onecall?';
 const weather = 'weather?';
-const currentWeatherDiv = document.querySelector('#current-weather');
+const currentWeatherDetail = document.querySelector('#cw-detail');
 
 let lastRes = null;
 const displayCurrentWeather = (cityName, date, temp, wind, humidity, uv) => {
-  let wHead = document.createElement('h2');
+  let wHead = document.querySelector('#cw-header');
   wHead.textContent = `${cityName} (${date})`;
   let pTemp = document.createElement('p');
-  pTemp.textContent = `Temp: ${temp}F`;
+  pTemp.textContent = `Temp: ${temp}°F`;
   let pWind = document.createElement('p');
   pWind.textContent = `Wind: ${wind} MPH`;
   let pHumid = document.createElement('p');
-  pHumid.textContent = `Humidity: ${humidity}`;
+  pHumid.textContent = `Humidity: ${humidity} %`;
   let pUVi = document.createElement('p');
   pUVi.textContent = `UV Index: ${uv}`;
 
-  currentWeatherDiv.innerHTML = '';
-  currentWeatherDiv.appendChild(wHead);
-  currentWeatherDiv.appendChild(pTemp);
-  currentWeatherDiv.appendChild(pWind);
-  currentWeatherDiv.appendChild(pHumid);
-  currentWeatherDiv.appendChild(pUVi);
+  currentWeatherDetail.innerHTML = '';
+  currentWeatherDetail.appendChild(pTemp);
+  currentWeatherDetail.appendChild(pWind);
+  currentWeatherDetail.appendChild(pHumid);
+  currentWeatherDetail.appendChild(pUVi);
 }
 
 const forecast = (lat, lon) => {
