@@ -4,8 +4,42 @@ const onecall = 'onecall?';
 const weather = 'weather?';
 const currentWeatherDetail = document.querySelector('#cw-detail');
 const searchForm = document.querySelector('#search-form');
+const cities = document.querySelector('#city-list');
 
 let lastRes = null;
+
+const initHistory = () => {
+  localStorage['cities'] = JSON.stringify([]);
+  cities.innerHTML = '';
+}
+
+if (localStorage.getItem('cities') === null) {
+  initHistory();
+}
+
+const getCities = () => JSON.parse(localStorage['cities']);
+
+const hasCity = (cityName) => getCities().some(c => c.name === cityName);
+
+const pushCity = (cityName, coord) => {
+  let cs = getCities();
+  if (cs.every(c => c.name !== cityName)) 
+    cs.push({name: cityName, coords: coord});
+  localStorage['cities'] = JSON.stringify(cs);
+}
+
+const updateHistory = () => {
+  let cs = getCities();
+  cities.innerHTML = '';
+  for (c of cs) {
+    let b = document.createElement('button');
+    b.textContent = c.name;
+    b.classList.add('cityBtn');
+    cities.appendChild(b);
+  }
+}
+
+updateHistory();
 
 const uviTier = (uv) => {
   if (uv < 3) {
@@ -66,6 +100,19 @@ const weatherCall = function (cityName) {
     })
 }
 
+cities.addEventListener('click', ev => {
+  ev.preventDefault();
+  if (ev.target.classList.contains('cityBtn')) {
+    let cs = getCities();
+    let d = cs.find(c => c.name === ev.target.textContent);
+    forecast(d.coords.lat, d.coords.lon
+    ).then(blob => {
+      let c = blob.current;
+      displayCurrentWeather(d.name, Date(), c.temp, c.wind_speed, c.humidity, c.uvi);
+    })
+  }
+})
+
 searchForm.querySelector('button').addEventListener('click', (ev) => {
   ev.preventDefault();
   console.log(this);
@@ -73,6 +120,8 @@ searchForm.querySelector('button').addEventListener('click', (ev) => {
   console.log(`search term: ${sTerm}`);
   weatherCall(sTerm)
   .then(json => {
+    pushCity(json.name, json.coord);
+    updateHistory();
     return forecast(json.coord.lat, json.coord.lon)
   }).then(blob => {
     let c = blob.current;
