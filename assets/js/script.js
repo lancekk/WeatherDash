@@ -5,7 +5,24 @@ const weather = 'weather?';
 const currentWeatherDiv = document.querySelector('#current-weather');
 
 let lastRes = null;
-const displayCurrentWeather = function(cityName, date, temp, wind, humidity, uv) {
+const displayCurrentWeather = (cityName, date, temp, wind, humidity, uv) => {
+  let wHead = document.createElement('h2');
+  wHead.textContent = `${cityName} (${date})`;
+  let pTemp = document.createElement('p');
+  pTemp.textContent = `Temp: ${temp}F`;
+  let pWind = document.createElement('p');
+  pWind.textContent = `Wind: ${wind} MPH`;
+  let pHumid = document.createElement('p');
+  pHumid.textContent = `Humidity: ${humidity}`;
+  let pUVi = document.createElement('p');
+  pUVi.textContent = `UV Index: ${uv}`;
+
+  currentWeatherDiv.innerHTML = '';
+  currentWeatherDiv.appendChild(wHead);
+  currentWeatherDiv.appendChild(pTemp);
+  currentWeatherDiv.appendChild(pWind);
+  currentWeatherDiv.appendChild(pHumid);
+  currentWeatherDiv.appendChild(pUVi);
 }
 
 const forecast = (lat, lon) => {
