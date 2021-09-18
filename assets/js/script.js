@@ -5,6 +5,17 @@ const weather = 'weather?';
 const currentWeatherDetail = document.querySelector('#cw-detail');
 
 let lastRes = null;
+
+const uviTier = (uv) => {
+  if (uv < 3) {
+    return 'favorable';
+  } else if (uv < 6) {
+    return 'moderate';
+  } else {
+    return 'severe';
+  }
+}
+
 const displayCurrentWeather = (cityName, date, temp, wind, humidity, uv) => {
   let wHead = document.querySelector('#cw-header');
   wHead.textContent = `${cityName} (${date})`;
