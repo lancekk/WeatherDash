@@ -100,16 +100,19 @@ const weatherCall = function (cityName) {
     })
 }
 
+const showForecast = (lat, lon, cityName) => {
+  forecast(lat, lon).then(blob => {
+    let c = blob.current;
+    displayCurrentWeather(cityName, Date(), c.temp, c.wind_speed, c.humidity, c.uvi);
+  });
+}
+
 cities.addEventListener('click', ev => {
   ev.preventDefault();
   if (ev.target.classList.contains('cityBtn')) {
     let cs = getCities();
     let d = cs.find(c => c.name === ev.target.textContent);
-    forecast(d.coords.lat, d.coords.lon
-    ).then(blob => {
-      let c = blob.current;
-      displayCurrentWeather(d.name, Date(), c.temp, c.wind_speed, c.humidity, c.uvi);
-    })
+    showForecast(d.coords.lat, d.coords.lon, d.name);
   }
 })
 
@@ -122,9 +125,6 @@ searchForm.querySelector('button').addEventListener('click', (ev) => {
   .then(json => {
     pushCity(json.name, json.coord);
     updateHistory();
-    return forecast(json.coord.lat, json.coord.lon)
-  }).then(blob => {
-    let c = blob.current;
-    displayCurrentWeather(sTerm, Date(), c.temp, c.wind_speed, c.humidity, c.uvi);
-  })
+    showForecast(json.coord.lat, json.coord.lon, json.name);
+  });
  });
