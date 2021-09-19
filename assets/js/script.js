@@ -145,3 +145,7 @@ searchForm.querySelector('button').addEventListener('click', (ev) => {
     showForecast(json.coord.lat, json.coord.lon, json.name);
   });
  });
+
+ document.querySelector('#clear-button').addEventListener('click', ev => {
+   initHistory();
+ })
