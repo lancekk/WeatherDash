@@ -46,15 +46,8 @@ const updateHistory = () => {
 
 updateHistory();
 
-const uviTier = (uv) => {
-  if (uv < 3) {
-    return 'favorable';
-  } else if (uv < 6) {
-    return 'moderate';
-  } else {
-    return 'severe';
-  }
-}
+const uviTier = (uv) =>
+  `<span class='uv-${(uv<3)?'favorable':(uv<6)?'moderate':'severe'}'>${uv}</span>`
 
 const displayCurrentWeather = (cityName, date, temp, wind, humidity, uv) => {
   let wHead = document.querySelector('#cw-header');
@@ -66,7 +59,7 @@ const displayCurrentWeather = (cityName, date, temp, wind, humidity, uv) => {
   let pHumid = document.createElement('p');
   pHumid.textContent = `Humidity: ${humidity} %`;
   let pUVi = document.createElement('p');
-  pUVi.textContent = `UV Index: ${uv}`;
+  pUVi.innerHTML = `UV Index: ${uviTier(uv)}`;
 
   currentWeatherDetail.innerHTML = '';
   currentWeatherDetail.appendChild(pTemp);
