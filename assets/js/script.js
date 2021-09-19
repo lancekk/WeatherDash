@@ -7,19 +7,20 @@ const searchForm = document.querySelector('#search-form');
 const cities = document.querySelector('#city-list');
 const forecasts = document.querySelector('#forecast-list');
 const momentfmt = 'M/D/YYYY';
+const historyStorageKey = 'cities';
 
 let lastRes = null;
 
 const initHistory = () => {
-  localStorage['cities'] = JSON.stringify([]);
+  localStorage[historyStorageKey] = JSON.stringify([]);
   cities.innerHTML = '';
 }
 
-if (localStorage.getItem('cities') === null) {
+if (localStorage.getItem(historyStorageKey) === null) {
   initHistory();
 }
 
-const getCities = () => JSON.parse(localStorage['cities']);
+const getCities = () => JSON.parse(localStorage[historyStorageKey]);
 
 const hasCity = (cityName) => getCities().some(c => c.name === cityName);
 
@@ -27,7 +28,7 @@ const pushCity = (cityName, coord) => {
   let cs = getCities();
   if (cs.every(c => c.name !== cityName)) 
     cs.push({name: cityName, coords: coord});
-  localStorage['cities'] = JSON.stringify(cs);
+  localStorage[historyStorageKey] = JSON.stringify(cs);
 }
 
 const updateHistory = () => {
