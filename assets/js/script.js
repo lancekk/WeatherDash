@@ -34,10 +34,12 @@ const updateHistory = () => {
   let cs = getCities();
   cities.innerHTML = '';
   for (c of cs) {
+    let li = document.createElement('li');
     let b = document.createElement('button');
     b.textContent = c.name;
     b.classList.add('cityBtn');
-    cities.appendChild(b);
+    li.appendChild(b);
+    cities.appendChild(li);
   }
 }
 
