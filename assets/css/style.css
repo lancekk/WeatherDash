@@ -1,0 +1,17 @@
+body {
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+ul {
+  list-style: none;
+}
+
+.uv-favorable {
+  background-color: green;
+}
+.uv-moderate {
+  background-color: yellow;
+}
+.uv-severe {
+  background-color: red;
+}
