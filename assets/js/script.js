@@ -6,6 +6,7 @@ const currentWeatherDetail = document.querySelector('#cw-detail');
 const searchForm = document.querySelector('#search-form');
 const cities = document.querySelector('#city-list');
 const forecasts = document.querySelector('#forecast-list');
+const momentfmt = 'M/D/YYYY';
 
 let lastRes = null;
 
@@ -104,7 +105,7 @@ const weatherCall = function (cityName) {
 const showDaily = days => {
   for (d of days) {
     let card = document.createElement('div');
-    card.innerHTML = `<h4>${Date(d.dt)}</h4>
+    card.innerHTML = `<h4>${moment(d.dt * 1000).format(momentfmt)}</h4>
     <p><img src=https://openweathermap.org/img/w/${d.weather[0].icon}.png></p>
     <p>Temp: ${d.temp.day}</p>
     <p>Wind: ${d.wind_speed}</p>
@@ -116,7 +117,7 @@ const showDaily = days => {
 const showForecast = (lat, lon, cityName) => {
   forecast(lat, lon).then(blob => {
     let c = blob.current;
-    displayCurrentWeather(cityName, Date(), c.temp, c.wind_speed, c.humidity, c.uvi);
+    displayCurrentWeather(cityName, moment().format(momentfmt), c.temp, c.wind_speed, c.humidity, c.uvi);
     showDaily(blob.daily.splice(1,6));
   });
 }
