@@ -99,6 +99,7 @@ const weatherCall = function (cityName) {
 }
 
 const showDaily = days => {
+  forecasts.innerHTML = '';
   for (d of days) {
     let card = document.createElement('div');
     card.innerHTML = `<h4>${moment(d.dt * 1000).format(momentfmt)}</h4>
@@ -114,7 +115,7 @@ const showForecast = (lat, lon, cityName) => {
   forecast(lat, lon).then(blob => {
     let c = blob.current;
     displayCurrentWeather(cityName, moment().format(momentfmt), c.temp, c.wind_speed, c.humidity, c.uvi);
-    showDaily(blob.daily.splice(1,6));
+    showDaily(blob.daily.slice(1,6));
   });
 }
 
