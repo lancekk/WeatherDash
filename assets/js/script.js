@@ -47,7 +47,7 @@ const updateHistory = () => {
 updateHistory();
 
 const uviTier = (uv) =>
-  `<span class='uv-${(uv<3)?'favorable':(uv<6)?'moderate':'severe'}'>${uv}</span>`
+  `<span class='uv uv-${(uv<3)?'favorable':(uv<6)?'moderate':'severe'}'>${uv}</span>`
 
 const displayCurrentWeather = (cityName, date, temp, wind, humidity, uv) => {
   let wHead = document.querySelector('#cw-header');
@@ -102,6 +102,7 @@ const showDaily = days => {
   forecasts.innerHTML = '';
   for (d of days) {
     let card = document.createElement('div');
+    card.classList.add('forecast-card');
     card.innerHTML = `<h4>${moment(d.dt * 1000).format(momentfmt)}</h4>
     <p><img src=https://openweathermap.org/img/w/${d.weather[0].icon}.png></p>
     <p>Temp: ${d.temp.day}</p>
